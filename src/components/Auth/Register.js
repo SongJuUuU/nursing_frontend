@@ -11,27 +11,21 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        'https://nurring-server-087b646efdc7.herokuapp.com/api/auth/register',
-        {
-          email,
-          password
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          withCredentials: false
-        }
-      );
+      const api = axios.create({
+        baseURL: 'https://nurring-server-087b646efdc7.herokuapp.com'
+      });
+
+      const response = await api.post('/api/auth/register', {
+        email,
+        password
+      });
+
       console.log('회원가입 응답:', response.data);
       alert('회원가입이 완료되었습니다.');
       history.push('/login');
     } catch (error) {
       console.error('회원가입 에러:', error);
-      const errorMessage = error.response?.data?.message || '회원가입에 실패했습니다.';
-      alert(errorMessage);
+      alert('회원가입에 실패했습니다.');
     }
   };
 
