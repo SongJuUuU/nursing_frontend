@@ -35,6 +35,7 @@ function DiaryList() {
       }
 
       const data = await response.json();
+      console.log('받은 일기 데이터:', data);
       setDiaries(data);
     } catch (error) {
       console.error('일기 목록 조회 에러:', error);
