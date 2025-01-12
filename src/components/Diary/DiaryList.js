@@ -152,7 +152,7 @@ function DiaryList() {
           >
             {diary.imageUrl && (
               <div className="diary-card-image">
-                <img src={`${process.env.REACT_APP_API_URL}${diary.imageUrl}`} alt="일기 이미지" />
+                <img src={diary.imageUrl} alt="일기 이미지" />
               </div>
             )}
             <div className="diary-card-content">
