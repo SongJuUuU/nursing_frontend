@@ -174,7 +174,7 @@ function DiaryList() {
               {selectedDiary.imageUrl && (
                 <div className="popup-image">
                   <img 
-                    src={`${process.env.REACT_APP_API_URL}${selectedDiary.imageUrl}`} 
+                    src={selectedDiary.imageUrl}
                     alt="일기 이미지"
                   />
                 </div>
