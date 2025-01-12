@@ -153,7 +153,10 @@ function DiaryList() {
           >
             {diary.imageUrl && (
               <div className="diary-card-image">
-                <img src={diary.imageUrl} alt="일기 이미지" />
+                <img 
+                  src={diary.imageUrl.replace(process.env.REACT_APP_API_URL, '')} 
+                  alt="일기 이미지" 
+                />
               </div>
             )}
             <div className="diary-card-content">
@@ -175,7 +178,7 @@ function DiaryList() {
               {selectedDiary.imageUrl && (
                 <div className="popup-image">
                   <img 
-                    src={selectedDiary.imageUrl}
+                    src={selectedDiary.imageUrl.replace(process.env.REACT_APP_API_URL, '')}
                     alt="일기 이미지"
                   />
                 </div>
