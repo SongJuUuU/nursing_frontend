@@ -1,0 +1,1 @@
+export const API_URL = process.env.REACT_APP_API_URL || 'https://nurring-server-087b646efdc7.herokuapp.com'; 
