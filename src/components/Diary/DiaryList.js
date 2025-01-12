@@ -61,9 +61,17 @@ function DiaryList() {
     if (!chatInput.trim()) return;
 
     try {
+      // 디버깅: 요청 전 상태 확인
+      console.log('=== 챗봇 요청 시작 ===');
+      console.log('입력된 질문:', chatInput);
+      console.log('요청 URL:', `${process.env.REACT_APP_API_URL}/api/chat`);
+
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/chat`, {
         question: chatInput
       });
+      
+      // 디버깅: 응답 확인
+      console.log('챗봇 응답 데이터:', response.data);
       
       setChatResponse({
         text: response.data.answer,
@@ -71,7 +79,14 @@ function DiaryList() {
       });
       setChatInput('');
     } catch (error) {
-      console.error('챗봇 응답 에러:', error);
+      // 디버깅: 에러 상세 정보
+      console.error('챗봇 에러:', {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data
+      });
+      
       setChatResponse({
         text: "죄송합니다. 답변을 생성하는 중 문제가 발생했습니다.",
         loading: false,
