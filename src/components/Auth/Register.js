@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../api';
 import { useHistory, Link } from 'react-router-dom';
 
 function Register() {
@@ -13,21 +13,16 @@ function Register() {
     try {
       console.log('회원가입 시도:', { email });
       
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/auth/register`,
-        { email, password },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+      const response = await api.post('/api/auth/register', {
+        email,
+        password
+      });
       
-      console.log('회원가입 응답:', response.data);
+      console.log('회원가입 응답:', response);
       alert('회원가입이 완료되었습니다.');
       history.push('/login');
     } catch (error) {
-      console.error('회원가입 에러:', error.response || error);
+      console.error('회원가입 에러:', error);
       alert(error.response?.data?.message || '회원가입에 실패했습니다.');
     }
   };
