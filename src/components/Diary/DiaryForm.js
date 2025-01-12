@@ -11,25 +11,35 @@ function DiaryForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('image', image);
-
+    const token = localStorage.getItem('token');
+    
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/api/diary`, formData, {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      if (image) {
+        formData.append('image', image);
+      }
+
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/diary`, {
+        method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
       });
-      
+
+      if (!response.ok) {
+        throw new Error('일기 작성에 실패했습니다.');
+      }
+
       setShowSuccess(true);
       
       setTimeout(() => {
         history.push('/');
       }, 3000);
     } catch (error) {
-      alert('일기 작성에 실패했습니다.');
+      console.error('일기 작성 에러:', error);
     }
   };
 

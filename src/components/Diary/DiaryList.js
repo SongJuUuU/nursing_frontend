@@ -24,23 +24,20 @@ function DiaryList() {
   const fetchDiaries = async () => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) {
-        history.push('/login');
-        return;
-      }
-
-      const response = await axios.get('http://localhost:5001/api/diary', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/diary`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
-      setDiaries(response.data);
-    } catch (error) {
-      console.error('일기 목록을 불러오는데 실패했습니다:', error);
-      if (error.response?.status === 403) {
-        localStorage.removeItem('token');  // 토큰이 유효하지 않으면 제거
-        history.push('/login');
+      
+      if (!response.ok) {
+        throw new Error('일기 목록을 불러오는데 실패했습니다.');
       }
+
+      const data = await response.json();
+      setDiaries(data);
+    } catch (error) {
+      console.error('일기 목록 조회 에러:', error);
     }
   };
 
@@ -63,7 +60,7 @@ function DiaryList() {
     if (!chatInput.trim()) return;
 
     try {
-      const response = await axios.post('http://localhost:5001/api/chat', {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/chat`, {
         question: chatInput
       });
       
@@ -155,7 +152,7 @@ function DiaryList() {
           >
             {diary.imageUrl && (
               <div className="diary-card-image">
-                <img src={`http://localhost:5001${diary.imageUrl}`} alt="일기 이미지" />
+                <img src={`${process.env.REACT_APP_API_URL}${diary.imageUrl}`} alt="일기 이미지" />
               </div>
             )}
             <div className="diary-card-content">
@@ -177,7 +174,7 @@ function DiaryList() {
               {selectedDiary.imageUrl && (
                 <div className="popup-image">
                   <img 
-                    src={`http://localhost:5001${selectedDiary.imageUrl}`} 
+                    src={`${process.env.REACT_APP_API_URL}${selectedDiary.imageUrl}`} 
                     alt="일기 이미지"
                   />
                 </div>
