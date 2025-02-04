@@ -11,15 +11,22 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log('회원가입 시도:', { email });
+      console.log('회원가입 시도:', { email, password, babyBirthday });
       
       const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ 
+          email, 
+          password,
+          babyBirthday
+        })
       });
+      
+      // 회원가입 성공 시 생일 정보 저장
+      localStorage.setItem('babyBirthday', babyBirthday);
       
       console.log('회원가입 응답:', response.data);
       alert('회원가입이 완료되었습니다.');

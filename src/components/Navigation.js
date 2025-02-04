@@ -1,8 +1,9 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 
 function Navigation() {
   const history = useHistory();
+  const location = useLocation();
   const isLoggedIn = localStorage.getItem('token');
 
   const handleLogout = () => {
@@ -10,10 +11,17 @@ function Navigation() {
     history.push('/login');
   };
 
+  const handleHomeClick = (e) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      window.location.reload(); // 또는 상태를 리셋하는 다른 방법을 사용
+    }
+  };
+
   return (
     <nav className="navigation">
       <div className="nav-brand">
-        <Link to="/">
+        <Link to="/" onClick={handleHomeClick}>
           <span className="brand-icon">👶</span>
           우리아이
         </Link>
@@ -21,7 +29,7 @@ function Navigation() {
       <div className="nav-links">
         {isLoggedIn ? (
           <>
-            <Link to="/" className="nav-link">
+            <Link to="/" className="nav-link" onClick={handleHomeClick}>
               <span className="nav-icon">🏠</span>
               홈
             </Link>
